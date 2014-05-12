@@ -1,9 +1,7 @@
 package me.elrod.ph
 
 import java.net.{ HttpURLConnection, URL }
-//import javax.net.ssl.HttpsURLConnection
 import purefn.bytestring.ByteString
-//import purefn.bytestring.ByteString._
 import purefn.bytestring.io._
 import scala.collection.JavaConverters._
 import scalaz._, Scalaz._
