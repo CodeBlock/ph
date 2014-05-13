@@ -9,6 +9,6 @@ import scalaz.effect.IO
   * It is just an experiment.
   */
 trait Client {
-  //def head[T](url: String): IO[Option[List[Header]]]
   def get(url: String): IO[Response[ByteString]]
+  def head(url: String): IO[List[Header]]
 }

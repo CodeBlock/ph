@@ -25,4 +25,16 @@ object JavaClient extends Client {
         conn.getHeaderFields.asScala.mapValues(_.asScala.toList).toMap,
         contents))
   }
+
+  def head(url: String): IO[List[Header]] = {
+    def getConnection(url: URL): IO[HttpURLConnection] = IO {
+      val u = url.openConnection.asInstanceOf[HttpURLConnection]
+      u.setRequestMethod("HEAD")
+      u
+    }
+
+    for {
+      conn <- getConnection(new URL(url))
+    } yield (Header.fromMap(conn.getHeaderFields.asScala.mapValues(_.asScala.toList).toMap))
+  }
 }
