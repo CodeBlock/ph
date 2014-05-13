@@ -25,7 +25,7 @@ class JavaClientSpec extends Specification {
     "succesfully perform a HEAD request" in {
       val headers: IO[List[Header]] = http head "http://ipv4.da.gd/"
       val unsafe = headers.unsafePerformIO
-      unsafe.length must be_> 1
+      unsafe.length must be_> (1)
     }
   }
 }

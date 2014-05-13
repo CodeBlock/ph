@@ -33,8 +33,7 @@ object JavaClient extends Client {
       u
     }
 
-    for {
-      conn <- getConnection(new URL(url))
-    } yield (Header.fromMap(conn.getHeaderFields.asScala.mapValues(_.asScala.toList).toMap))
+    getConnection(new URL(url)).map(c =>
+      Header.fromMap(c.getHeaderFields.asScala.mapValues(_.asScala.toList).toMap))
   }
 }
