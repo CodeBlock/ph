@@ -16,7 +16,7 @@ case object PATCH extends Method
 case class NonStandardMethod(method: String) extends Method
 
 sealed trait MethodInstances {
-  implicit val MethodShow: Show[Method] = new Show[Method] {
+  implicit def MethodShow: Show[Method] = new Show[Method] {
     override def shows(m: Method) = m match {
       case GET     => "GET"
       case POST    => "POST"
@@ -29,6 +29,10 @@ sealed trait MethodInstances {
       case PATCH   => "PATCH"
       case NonStandardMethod(m) => m
     }
+  }
+
+  implicit def MethodEqual: Equal[Method] = new Equal[Method] {
+    def equal(a: Method, b: Method) = a == b
   }
 }
 
