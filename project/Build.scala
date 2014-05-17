@@ -34,16 +34,20 @@ object BuildSettings {
 
 object Dependencies {
   val scalazVersion = "7.0.6"
+  val monocleVersion = "0.3.0"
 
-  val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion
-  val scalazEffect = "org.scalaz" %% "scalaz-effect" % scalazVersion
-  val monocle = "com.github.julien-truffaut" %% "monocle-core" % "0.3"
-  val bytestring = "org.purefn" %% "bytestring" % "1.0-SNAPSHOT"
+  val scalaz            = "org.scalaz" %% "scalaz-core" % scalazVersion
+  val scalazEffect      = "org.scalaz" %% "scalaz-effect" % scalazVersion
+  val monocle           = "com.github.julien-truffaut" %% "monocle-core" % monocleVersion
+  val monocleGeneric    = "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion
+  val bytestring        = "org.purefn" %% "bytestring" % "1.0-SNAPSHOT"
 
-  val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.11.4"
+  // Tests
+  val scalaCheck        = "org.scalacheck" %% "scalacheck" % "1.11.4"
   val scalaCheckBinding = "org.scalaz" %% "scalaz-scalacheck-binding" % scalazVersion
-  val specs2 = "org.specs2" %% "specs2" % "2.3.11"
-  val scalazSpecs2 = "org.typelevel" %% "scalaz-specs2" % "0.2"
+  val specs2            = "org.specs2" %% "specs2" % "2.3.11"
+  val scalazSpecs2      = "org.typelevel" %% "scalaz-specs2" % "0.2"
+  val monocleLaw        = "com.github.julien-truffaut" %% "monocle-law" % monocleVersion
 }
 
 object PhBuild extends Build {
@@ -62,7 +66,12 @@ object PhBuild extends Build {
     "ph-core",
     file("core"),
     settings = buildSettings ++ Seq(
-      libraryDependencies ++= Seq(scalaz, scalazEffect, monocle, bytestring)
+      libraryDependencies ++= Seq(
+        bytestring,
+        monocle,
+        monocleGeneric,
+        scalaz,
+        scalazEffect)
     )
   )
 
@@ -71,7 +80,12 @@ object PhBuild extends Build {
     file("examples"),
     settings = buildSettings ++ Seq(
       publishArtifact := false,
-      libraryDependencies ++= Seq(scalaz, scalazEffect, monocle, bytestring)
+      libraryDependencies ++= Seq(
+        bytestring,
+        monocle,
+        monocleGeneric,
+        scalaz,
+        scalazEffect)
     )
   ) dependsOn(core % "test->test;compile->compile")
 
@@ -82,14 +96,14 @@ object PhBuild extends Build {
     settings = buildSettings ++ Seq(
       publishArtifact := false,
       libraryDependencies ++= Seq(
-        scalaz,
-        scalazEffect,
-        monocle,
         bytestring,
+        monocle,
         scalaCheck,
         scalaCheckBinding,
-        specs2,
-        scalazSpecs2)
+        scalaz,
+        scalazEffect,
+        scalazSpecs2,
+        specs2)
     )
   ) dependsOn(core)
 }
