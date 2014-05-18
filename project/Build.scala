@@ -18,6 +18,7 @@ object BuildSettings {
       "-language:existentials",
       "-language:higherKinds",
       "-language:implicitConversions",
+      "-language:postfixOps",
       "-unchecked",
       "-Xfatal-warnings",
       "-Xlint",

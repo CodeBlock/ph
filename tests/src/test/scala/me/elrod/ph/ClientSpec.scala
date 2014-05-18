@@ -18,9 +18,14 @@ class JavaClientSpec extends Specification {
     }
 
     "succesfully perform a HEAD request" in {
-      val headers: IO[List[Header]] = http head "http://ipv4.da.gd/"
+      val headers: IO[List[Header]] = http head "http://google.com/"
       val unsafe = headers.unsafePerformIO
       unsafe.length must be_> (1)
+      unsafe.map(_._name) must contain("Content-Type")
+
+      // Make sure the client strips out the beginning "HTTP/1.1 200 OK"
+      // which isn't a header and would give Header(null, ...)
+      unsafe.map(x => Option(x._name)) must not contain(None)
     }
   }
 }
