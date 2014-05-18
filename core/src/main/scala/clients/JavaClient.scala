@@ -22,7 +22,7 @@ object JavaClient extends Client {
     } yield (
       Response(
         HTTPStatus(conn.getResponseCode, conn.getResponseMessage),
-        conn.getHeaderFields.asScala.mapValues(_.asScala.toList).toMap,
+        Header.fromMap(conn.getHeaderFields.asScala.mapValues(_.asScala.toList).toMap),
         contents))
   }
 
