@@ -1,0 +1,91 @@
+---
+title: Welcome
+id: index
+---
+
+<div id="index">
+  <div id="name" class="hard-shadow">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+          <h1 class="huge">ph</h1>
+          <h2 class="huge">Principled HTTP</h2>
+          <hr />
+          <h3 class="center">A principled HTTP library for Scala.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <hr />
+        <h1 class="center">Built on high-quality, principled libraries.</h1>
+        <p>
+          ph is backed by
+          <a href="https://github.com/scalaz/scalaz">scalaz</a>,
+          <a href="https://github.com/julien-truffaut/Monocle">Monocle</a>,
+          <a href="http://argonaut.io">Argonaut</a>, and
+          <a href="https://etorreborre.github.io/specs2/">Specs2</a> to provide
+          a clean, safe, consistent, and purely functional API. Use lenses to
+          navigate response types and traverse JSON (after
+          <a href="https://github.com/argonaut-io/argonaut/issues/100">
+            this issue
+          </a> lands in Argonaut).
+        </p>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-lg-6">
+        <h1>Lenses</h1>
+        <p>
+          ph uses the awesome Monocle library and enables you to navigate your
+          HTTP responses by composition using lenses. If the response is JSON,
+          you can traverse the JSON using the same syntax (at least you will be
+          able to when
+          <a href="https://github.com/argonaut-io/argonaut/issues/100">
+            argonaut#100
+          </a> is implemented.
+        </p>
+      </div>
+      <div class="col-lg-6">
+      <pre><code>object DisplayIP extends SafeApp {
+  override def runc: IO[Unit] =
+    for {
+      ip <- http get "http://da.gd/ip"
+      _ <- putStrLn(ip |-> body get)
+    } yield ()
+}</code></pre>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="col-lg-6">
+        <h1>Client-agnostic</h1>
+        <p>
+          ph is built from the core to be agnostic to backend clients. As of
+          right now, ph doesn't implement its own handling of the HTTP
+          protocol, but instead provides a purely functional wrapper over
+          clients such as Dispatch, HttpURLConnection, and Apache HttpClient,
+          although as of this writing, HttpURLConnection is what is being
+          used as the reference client.
+        </p>
+      </div>
+      <div class="col-lg-6">
+      <pre><code class="scala">trait Client {
+  def get(url: String): IO[Response[ByteString]]
+  def head(url: String): IO[List[Header]]
+  // ...
+}</code></pre>
+      </div>
+    </div>
+
+    <hr />
+
+    (More content to come)
+
+  </div>
+</div>
