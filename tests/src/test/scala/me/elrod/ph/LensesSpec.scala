@@ -9,9 +9,6 @@ import purefn.bytestring.ByteString
 import scalaz.effect.IO
 import scalaz.syntax.functor._
 
-
-import me.elrod.ph.ResponseLenses._
-
 class LensesSpec extends Specification {
   "HeaderLenses" should {
     import me.elrod.ph.HeaderLenses._
@@ -23,6 +20,19 @@ class LensesSpec extends Specification {
           Header("Content-Encoding", Option(scalaz.NonEmptyList("UTF-8")))
         )
       (headers |->> each |->> name getAll) must_== List("Content-Length", "Content-Encoding")
+    }
+  }
+
+  "ResponseLenses" should {
+    import me.elrod.ph.ResponseLenses._
+
+    "succesfully lets us focus in on parts of a Response[ByteString]" in {
+      val r: Response[ByteString] =
+        Response(
+          HTTPStatus(200, "OK"),
+          Map("Content-Encoding" -> List("UTF-8")),
+          ByteString.packs("Hello world"))
+      (r |-> status get).code must_== 200
     }
   }
 }
