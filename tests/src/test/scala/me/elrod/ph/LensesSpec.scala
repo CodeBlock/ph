@@ -25,6 +25,7 @@ class LensesSpec extends Specification {
 
   "ResponseLenses" should {
     import me.elrod.ph.ResponseLenses._
+    import me.elrod.ph.HTTPStatusLenses._
 
     "succesfully lets us focus in on parts of a Response[ByteString]" in {
       val r: Response[ByteString] =
@@ -32,7 +33,9 @@ class LensesSpec extends Specification {
           HTTPStatus(200, "OK"),
           Map("Content-Encoding" -> List("UTF-8")),
           ByteString.packs("Hello world"))
-      (r |-> status get).code must_== 200
+      (r |-> status |-> code get) must_== 200
+      (r |-> status |-> message get) must_== "OK"
+      (r |-> body get).toString must_== "Hello world"
     }
   }
 }
