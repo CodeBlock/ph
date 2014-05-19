@@ -8,7 +8,10 @@ import scalaz._, Scalaz._
 import scalaz.effect.IO
 
 object JavaClient extends Client {
-  def get(url: String): IO[Response[ByteString]] = {
+  def get(url: String): IO[Response[ByteString]] =
+    getWith(Options.defaults(GET))(new URL(url))
+
+  def getWith(o: Options)(url: URL) = {
     def getConnection(url: URL): IO[HttpURLConnection] = IO {
       val u = url.openConnection.asInstanceOf[HttpURLConnection]
       u.setRequestMethod("GET")
@@ -17,7 +20,7 @@ object JavaClient extends Client {
     }
 
     for {
-      conn <- getConnection(new URL(url))
+      conn <- getConnection(url)
       contents <- sGetContents(conn.getInputStream)
     } yield (
       Response(
