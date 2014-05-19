@@ -1,10 +1,12 @@
 package me.elrod.ph
 
 import me.elrod.ph.{ JavaClient => http }
+import me.elrod.ph._
 import me.elrod.ph.ResponseLenses._
 import monocle.syntax.lens._
 import org.specs2.mutable._
 import purefn.bytestring.ByteString
+import scalaz._
 import scalaz.effect.IO
 import scalaz.syntax.functor._
 
@@ -28,4 +30,14 @@ class JavaClientSpec extends Specification {
       unsafe.map(x => Option(x._name)) must not contain(None)
     }
   }
+
+    "be able to set headers in a GET request" in {
+      val o: Options =
+        Options.defaults(GET) |-> OptionsLenses.headers modify (x => x ::: List(Header("foo", Some(NonEmptyList("bar")))))
+      val h: IO[ByteString] =
+        (http.getWith(o)(new java.net.URL("http://da.gd/headers?text"))) ∘ (((_: Response[ByteString]) |-> body) andThen (_.get))
+      val unsafe: String = h.unsafePerformIO.toString
+      unsafe must contain("foo: bar")
+      unsafe must contain("User-Agent: scala-ph")
+    }
 }
