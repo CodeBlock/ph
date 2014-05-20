@@ -3,21 +3,21 @@ package me.elrod.ph
 import monocle.Macro
 import scalaz._, Scalaz._
 
-case class Options(
+case class RequestOptions(
   _headers: List[Header],
   _basicAuth: Option[(String, String)],
   _redirects: Int
 )
 
-sealed trait OptionsInstances {
-  implicit def OptionsEqual: Equal[Options] = new Equal[Options] {
-    def equal(a: Options, b: Options) = a == b
+sealed trait RequestOptionsInstances {
+  implicit def RequestOptionsEqual: Equal[RequestOptions] = new Equal[RequestOptions] {
+    def equal(a: RequestOptions, b: RequestOptions) = a == b
   }
 }
 
-object Options extends OptionsInstances {
+object RequestOptions extends RequestOptionsInstances {
   def defaultsForAllMethods =
-    Options(
+    RequestOptions(
       List(Header("User-Agent", Some(NonEmptyList("scala-ph/0.1-pre")))),
       None,
       10)
@@ -25,7 +25,7 @@ object Options extends OptionsInstances {
   /** Set the defaults for a given request type.
     *
     * Typically you can call [[Method#defaultsForAllMethods]] then use its
-    * lenses in [[OptionsLenses]] to change bits and pieces.
+    * lenses in [[RequestOptionsLenses]] to change bits and pieces.
     */
   def defaults(m: Method) =
     m match {
@@ -34,8 +34,8 @@ object Options extends OptionsInstances {
     }
 }
 
-object OptionsLenses {
-  val headers = Macro.mkLens[Options, List[Header]]("_headers")
-  val basicAuth = Macro.mkLens[Options, Option[(String, String)]]("_basicAuth")
-  val redirects = Macro.mkLens[Options, Int]("_redirects")
+object RequestOptionsLenses {
+  val headers = Macro.mkLens[RequestOptions, List[Header]]("_headers")
+  val basicAuth = Macro.mkLens[RequestOptions, Option[(String, String)]]("_basicAuth")
+  val redirects = Macro.mkLens[RequestOptions, Int]("_redirects")
 }

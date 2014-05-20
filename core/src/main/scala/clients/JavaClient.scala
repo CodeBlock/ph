@@ -17,9 +17,9 @@ import scalaz.effect.IO
   */
 object JavaClient extends Client {
   def get(url: String): IO[Response[ByteString]] =
-    getWith(Options.defaults(GET))(new URL(url))
+    getWith(RequestOptions.defaults(GET))(new URL(url))
 
-  def getWith(o: Options)(url: URL): IO[Response[ByteString]] = {
+  def getWith(o: RequestOptions)(url: URL): IO[Response[ByteString]] = {
     def getConnection(url: URL): IO[HttpURLConnection] = IO {
       val u = url.openConnection.asInstanceOf[HttpURLConnection]
       u.setRequestMethod("GET")

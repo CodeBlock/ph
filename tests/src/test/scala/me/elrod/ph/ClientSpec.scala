@@ -32,8 +32,9 @@ class JavaClientSpec extends Specification {
   }
 
     "be able to set headers in a GET request" in {
-      val o: Options =
-        Options.defaults(GET) |-> OptionsLenses.headers modify (x => x ::: List(Header("foo", Some(NonEmptyList("bar")))))
+      val o: RequestOptions =
+        RequestOptions.defaults(GET) |-> RequestOptionsLenses.headers modify (x =>
+          x ::: List(Header("foo", Some(NonEmptyList("bar")))))
       val h: IO[ByteString] =
         (http.getWith(o)(new java.net.URL("http://da.gd/headers?text"))) ∘ (((_: Response[ByteString]) |-> body) andThen (_.get))
       val unsafe: String = h.unsafePerformIO.toString
