@@ -21,18 +21,17 @@ object BuildSettings {
       "-language:implicitConversions",
       "-language:postfixOps",
       "-unchecked",
-      "-Xfatal-warnings",
+      //"-Xfatal-warnings",
       "-Xlint",
       "-Yno-adapted-args",
       "-Ywarn-dead-code",
       "-Ywarn-numeric-widen",
-      "-Ywarn-value-discard"
+      "-Ywarn-value-discard",
+      "-P:wartremover:only-warn-traverser:org.brianmckenna.wartremover.warts.Unsafe"
     ),
-    addCompilerPlugin("org.brianmckenna" %% "wartremover" % "0.8")
+    addCompilerPlugin("org.brianmckenna" %% "wartremover" % "0.9")
   )
 }
-
-//scalacOptions in (Compile, compile) += "-P:wartremover:traverser:org.brianmckenna.wartremover.warts.Unsafe"
 
 object Dependencies {
   val scalazVersion = "7.0.6"
