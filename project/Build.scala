@@ -8,6 +8,7 @@ object BuildSettings {
     publishTo := Some(Resolver.file("file", new File("releases"))),
     resolvers ++= Seq(
       "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/",
+      "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/",
       "Ricky Elrod - Fedorapeople" at "http://codeblock.fedorapeople.org/maven/"
     ),
     scalaVersion := "2.10.4",
@@ -29,18 +30,19 @@ object BuildSettings {
       "-Ywarn-value-discard",
       "-P:wartremover:only-warn-traverser:org.brianmckenna.wartremover.warts.Unsafe"
     ),
-    addCompilerPlugin("org.brianmckenna" %% "wartremover" % "0.9")
+    addCompilerPlugin("org.brianmckenna" %% "wartremover" % "0.10")
   )
 }
 
 object Dependencies {
   val scalazVersion = "7.0.6"
-  val monocleVersion = "0.3.0"
+  val monocleVersion = "0.4-SNAPSHOT"
 
   val scalaz            = "org.scalaz" %% "scalaz-core" % scalazVersion
   val scalazEffect      = "org.scalaz" %% "scalaz-effect" % scalazVersion
   val monocle           = "com.github.julien-truffaut" %% "monocle-core" % monocleVersion
   val monocleGeneric    = "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion
+  val monocleMacro      = "com.github.julien-truffaut" %% "monocle-macro" % monocleVersion
   val bytestring        = "org.purefn" %% "bytestring" % "1.0-SNAPSHOT"
 
   // Tests
@@ -71,6 +73,7 @@ object PhBuild extends Build {
         bytestring,
         monocle,
         monocleGeneric,
+        monocleMacro,
         scalaz,
         scalazEffect)
     )
@@ -85,6 +88,7 @@ object PhBuild extends Build {
         bytestring,
         monocle,
         monocleGeneric,
+        monocleMacro,
         scalaz,
         scalazEffect)
     )
