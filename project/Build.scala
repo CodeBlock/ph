@@ -11,7 +11,7 @@ object BuildSettings {
       "Ricky Elrod - Fedorapeople" at "http://codeblock.fedorapeople.org/maven/"
     ),
     scalaVersion := "2.10.4",
-  , crossScalaVersions := List("2.10.4", "2.11.0")
+    crossScalaVersions := List("2.10.4", "2.11.0"),
     scalacOptions ++= Seq(
       "-deprecation",
       "-encoding", "UTF-8",
